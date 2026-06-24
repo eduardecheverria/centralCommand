@@ -12,7 +12,7 @@
     --bg:#0E0B1A;--bg2:#15102A;--surface:#1B1538;--surface2:#221A47;--line:#322A5C;
     --ink:#ECE9FB;--muted:#A39DC8;--faint:#6E6796;
     --purple:#8B5CF6;--cyan:#22D3EE;--gold:#FBBF24;--green:#34D399;
-    --blue:#5B9DF9;--teal:#2DD4BF;--red:#F87171;--radius:14px;
+    --blue:#5B9DF9;--teal:#2DD4BF;--magenta:#E879C9;--red:#F87171;--radius:14px;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -29,7 +29,32 @@
   .brand{display:flex;align-items:center;gap:11px;margin-bottom:12px}
   .sigil{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--purple),var(--cyan));display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-weight:700;color:#0E0B1A;font-size:.85rem;flex:none}
   .brand .bt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
-  .brand .bs{color:var(--faint);font-size:.78rem;margin-left:auto}
+  .brand .bs{color:var(--faint);font-size:.78rem}
+  .gear{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--muted);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:1rem;display:grid;place-items:center;transition:all .15s;flex:none}
+  .gear:hover{border-color:var(--purple);color:var(--ink)}
+  .gear .dot{position:absolute;width:7px;height:7px;border-radius:99px;background:var(--green);transform:translate(11px,-11px)}
+  .motto{font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:500;color:var(--cyan);margin:0 0 12px;display:flex;align-items:center;gap:8px;min-height:20px}
+  .motto::before{content:'';width:3px;height:14px;border-radius:2px;background:linear-gradient(var(--purple),var(--cyan));flex:none}
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(8,6,18,.72);backdrop-filter:blur(4px);z-index:70;display:none;align-items:center;justify-content:center;padding:18px}
+  .overlay.show{display:flex}
+  .modal{background:var(--surface);border:1px solid var(--line);border-radius:16px;max-width:440px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .modal h2{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;margin:0 0 4px;display:flex;align-items:center;gap:9px}
+  .modal .desc{color:var(--muted);font-size:.84rem;margin:0 0 18px;line-height:1.5}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:.02em}
+  .field .hint{font-size:.72rem;color:var(--faint);margin-top:4px}
+  .modal-actions{display:flex;gap:8px;margin-top:18px}
+  .modal-actions .grow{flex:1}
+  .mbtn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.86rem;border:1px solid var(--line);background:var(--surface2);color:var(--ink);padding:10px 16px;border-radius:9px;cursor:pointer}
+  .mbtn.primary{background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;color:#0E0B1A}
+  .mbtn:hover{filter:brightness(1.08)}
+  .syncstatus{font-size:.78rem;margin-top:14px;padding:9px 12px;border-radius:9px;background:var(--bg2);border:1px solid var(--line);color:var(--muted);display:flex;align-items:center;gap:8px}
+  .syncstatus .sdot{width:8px;height:8px;border-radius:99px;background:var(--faint);flex:none}
+  .syncstatus.ok .sdot{background:var(--green)}
+  .syncstatus.err .sdot{background:var(--red)}
+  .syncstatus.syncing .sdot{background:var(--gold)}
+  .codegen{font-size:.74rem;color:var(--cyan);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;font-family:'Inter',sans-serif}
   .tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
   .tab{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.84rem;white-space:nowrap;color:var(--muted);background:transparent;border:none;border-bottom:2px solid transparent;padding:10px 14px 12px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:color .15s}
@@ -41,6 +66,7 @@
   .tab.active[data-accent=gold]{border-color:var(--gold)}
   .tab.active[data-accent=blue]{border-color:var(--blue)}
   .tab.active[data-accent=teal]{border-color:var(--teal)}
+  .tab.active[data-accent=magenta]{border-color:var(--magenta)}
 
   .stage{max-width:920px;margin:0 auto;padding:26px 18px 90px}
   .panel{display:none}
@@ -204,6 +230,61 @@
   #p-job .pill.dot::before{content:'';width:6px;height:6px;border-radius:99px;background:currentColor;display:inline-block}
   #p-job .note{font-size:.8rem;color:var(--muted);margin-top:4px}
   #p-job .empty-skills{font-size:.8rem;color:var(--faint)}
+  #p-job .avgcard{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:0 0 16px}
+  #p-job .avgnum{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;line-height:1}
+  #p-job .avgmeta{flex:1}
+  #p-job .avgmeta .al{font-weight:700;font-size:.95rem}
+  #p-job .avgmeta .as{color:var(--muted);font-size:.8rem;margin-top:2px}
+  #p-job .savebar{margin:14px 0 0}
+  #p-job .savebtn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.85rem;background:var(--green);color:#06201d;border:none;border-radius:10px;padding:10px 18px;cursor:pointer}
+  #p-job .savebtn:hover{filter:brightness(1.08)}
+  #p-job h2.sec{font-size:.92rem;margin:26px 0 10px}
+  #p-job .saved-list{display:flex;flex-direction:column;gap:9px}
+  #p-job .saved-item{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:11px 14px}
+  #p-job .saved-pct{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.05rem;width:50px;text-align:center;flex:none}
+  #p-job .saved-info{flex:1;min-width:0}
+  #p-job .saved-info .sn{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #p-job .saved-info .sd{color:var(--faint);font-size:.74rem;font-family:'JetBrains Mono',monospace;margin-top:1px}
+  #p-job .saved-del{border:1px solid var(--line);background:var(--surface2);color:var(--muted);border-radius:8px;width:32px;height:32px;cursor:pointer;flex:none;font-size:.8rem}
+  #p-job .saved-del:hover{border-color:var(--red);color:var(--red)}
+
+  /* ===================== PORTAFOLIO (#p-port) ===================== */
+  #p-port .newproj{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:0 0 20px}
+  #p-port .newproj input,#p-port .newproj textarea{margin-bottom:10px}
+  #p-port .newproj textarea{min-height:62px;resize:vertical;font-family:'Inter',sans-serif;font-size:.86rem}
+  #p-port .createbtn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.86rem;background:var(--magenta);color:#2a0a23;border:none;border-radius:10px;padding:10px 20px;cursor:pointer}
+  #p-port .createbtn:hover{filter:brightness(1.06)}
+  #p-port .project{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  #p-port .proj-head{padding:16px 18px;cursor:pointer}
+  #p-port .proj-top{display:flex;align-items:center;gap:12px}
+  #p-port .proj-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;flex:1;min-width:0}
+  #p-port .proj-pct{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;color:var(--magenta);flex:none}
+  #p-port .proj-del{border:1px solid var(--line);background:var(--surface2);color:var(--muted);border-radius:8px;width:30px;height:30px;cursor:pointer;flex:none;font-size:.78rem}
+  #p-port .proj-del:hover{border-color:var(--red);color:var(--red)}
+  #p-port .proj-bar{height:8px;background:#0E0B1A;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-top:11px}
+  #p-port .proj-bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--magenta),#f0abfc);transition:width .4s}
+  #p-port .proj-desc{color:var(--muted);font-size:.85rem;margin-top:10px;white-space:pre-wrap}
+  #p-port .proj-body{border-top:1px solid var(--line);padding:12px 18px 16px;display:none}
+  #p-port .project.open .proj-body{display:block}
+  #p-port .chev{transition:transform .2s;color:var(--faint);flex:none}
+  #p-port .project.open .chev{transform:rotate(90deg)}
+  #p-port .tk{padding:3px 0}
+  #p-port .tk-row{display:flex;align-items:center;gap:10px}
+  #p-port .ck{width:19px;height:19px;border-radius:6px;border:2px solid var(--line);flex:none;display:grid;place-items:center;cursor:pointer;transition:all .15s}
+  #p-port .ck.on{background:var(--magenta);border-color:var(--magenta)}
+  #p-port .ck svg{opacity:0}#p-port .ck.on svg{opacity:1}
+  #p-port .ck.sm{width:16px;height:16px}
+  #p-port .tk-text{flex:1;font-size:.9rem;font-weight:500}
+  #p-port .sub-text{font-size:.84rem;font-weight:400}
+  #p-port .tk-row.done .tk-text{color:var(--faint);text-decoration:line-through}
+  #p-port .mini{border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:.76rem;padding:2px 6px;border-radius:6px;flex:none}
+  #p-port .mini:hover{color:var(--ink)}
+  #p-port .subs{margin:3px 0 5px 29px;border-left:1px solid var(--line);padding-left:12px}
+  #p-port .addrow{display:flex;gap:8px;margin-top:11px}
+  #p-port .addrow input{font-size:.84rem;padding:8px 11px}
+  #p-port .addrow button{font-family:'Inter',sans-serif;font-weight:600;font-size:.82rem;border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+  #p-port .addrow button:hover{border-color:var(--magenta)}
+  #p-port .empty{text-align:center;color:var(--faint);padding:40px 0;font-size:.9rem}
 
   @media(max-width:640px){
     #p-rpg .stats{grid-template-columns:repeat(2,1fr)}
@@ -226,14 +307,16 @@
     <div class="brand">
       <span class="sigil">&lt;/&gt;</span>
       <span class="bt">Centro de mando</span>
-      <span class="bs">Eduardo · job search suite</span>
+      <button class="gear" id="openSync" title="Sincronización entre dispositivos" style="position:relative">⚙<span class="dot" id="syncDot" style="display:none"></span></button>
     </div>
+    <div class="motto" id="motto"></div>
     <div class="tabs" id="tabs">
       <button class="tab active" data-target="p-rpg"  data-accent="purple"><span class="ic">🎮</span> RPG Study</button>
       <button class="tab"        data-target="p-road" data-accent="cyan"><span class="ic">🗺️</span> Roadmap</button>
       <button class="tab"        data-target="p-rep"  data-accent="gold"><span class="ic">🔁</span> Repaso</button>
       <button class="tab"        data-target="p-ctx"  data-accent="blue"><span class="ic">🔒</span> Contextos</button>
       <button class="tab"        data-target="p-job"  data-accent="teal"><span class="ic">🎯</span> Vacantes</button>
+      <button class="tab"        data-target="p-port" data-accent="magenta"><span class="ic">📁</span> Portafolio</button>
     </div>
   </div>
 </div>
@@ -373,6 +456,8 @@
       <h1>Analizador de vacantes</h1>
       <p>Pega una descripción y cruza tu perfil: qué cubres, qué falta, inglés y modalidad.</p>
     </div>
+    <div id="job-avg"></div>
+    <input id="job-name" placeholder="Nombre de la vacante (empresa · puesto)" style="margin-bottom:10px">
     <textarea id="job-jd" placeholder="Pega aquí la descripción completa de la vacante…"></textarea>
     <button class="go" id="job-analyze">Analizar</button>
     <div class="result" id="job-result">
@@ -388,10 +473,55 @@
         <div class="col"><h3 style="color:var(--green)">Cubres</h3><div id="job-matches"></div></div>
         <div class="col"><h3 style="color:var(--gold)">Brechas a cubrir</h3><div id="job-gaps"></div></div>
       </div>
+      <div class="savebar"><button class="savebtn" id="job-save">💾 Guardar vacante con su % de match</button></div>
     </div>
+    <h2 class="sec" id="job-savedTitle" style="display:none">Vacantes guardadas</h2>
+    <div class="saved-list" id="job-saved"></div>
     <div class="ftxt">analizador-vacantes · heurística local</div>
   </section>
 
+  <!-- ================= PORTAFOLIO ================= -->
+  <section class="panel" id="p-port">
+    <div class="phead">
+      <div class="eyebrow" style="color:var(--magenta)">Proyectos</div>
+      <h1>Portafolio</h1>
+      <p>Organiza los proyectos de tu portafolio en tareas y subtareas. El porcentaje de avance se calcula solo conforme las completas.</p>
+    </div>
+    <div class="newproj">
+      <input id="port-title" placeholder="Título del proyecto (ej. Dashboard con Next.js + TanStack Query)">
+      <textarea id="port-desc" placeholder="Descripción (qué es, stack, objetivo)…"></textarea>
+      <button class="createbtn" id="port-create">Crear proyecto</button>
+    </div>
+    <div id="port-list"></div>
+    <div class="toolbar">
+      <button class="app-btn" id="port-export">Exportar</button>
+      <button class="app-btn" id="port-import">Importar</button>
+      <input type="file" id="port-file" accept="application/json" class="file-hidden">
+    </div>
+    <div class="ftxt">portfolio-projects · datos locales</div>
+  </section>
+
+</div>
+<div class="overlay" id="syncOverlay">
+  <div class="modal">
+    <h2>🔄 Sincronización</h2>
+    <p class="desc">Guarda tu progreso en tu propio servidor para que no se pierda entre computadoras. Tus datos siguen guardándose local; esto solo agrega una copia en la nube que tú controlas.</p>
+    <div class="field">
+      <label>URL del servidor</label>
+      <input id="syncUrl" placeholder="https://tu-proyecto.vercel.app/api/sync">
+      <div class="hint">El endpoint de tu función en Vercel (instrucciones en el README).</div>
+    </div>
+    <div class="field">
+      <label>Tu código de sync (tu llave personal)</label>
+      <input id="syncCode" placeholder="ej. lalo-7f3a9c2e…">
+      <div class="hint">Úsalo igual en todas tus computadoras. <button class="codegen" id="genCode">Generar uno aleatorio</button></div>
+    </div>
+    <div class="syncstatus" id="syncStatus"><span class="sdot"></span><span id="syncStatusText">Sin configurar</span></div>
+    <div class="modal-actions">
+      <button class="mbtn primary grow" id="syncNow">Guardar y sincronizar ahora</button>
+      <button class="mbtn" id="syncClose">Cerrar</button>
+    </div>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -663,7 +793,252 @@ function tickfx(){
     $('job-matches').innerHTML=matchList.length?matchList.map(m=>`<span class="pill match dot">${m}</span>`).join(''):'<span class="empty-skills">No detecté tus skills fuertes en el texto. Revisa que pegaste los requisitos.</span>';
     $('job-gaps').innerHTML=gapList.length?gapList.map(g=>`<span class="pill gap dot">${g}</span>`).join('')+`<div class="note">Estas aparecen en la vacante y son brechas/filtros ATS. Priorízalas en tu roadmap.</div>`:'<span class="empty-skills">No detecté brechas conocidas. Buena señal.</span>';
     $('job-result').classList.add('show');
+    lastResult={name:($('job-name').value.trim()||('Vacante '+new Date().toLocaleDateString())),base,remote,usd,engHigh};
   };
+
+  // ---- guardar vacante + match promedio ----
+  const SKEY='saved-vacancies';
+  let lastResult=null;
+  let saved=loadSaved();
+  function loadSaved(){try{return JSON.parse(localStorage.getItem(SKEY))||[];}catch(e){return [];}}
+  function saveSaved(){localStorage.setItem(SKEY,JSON.stringify(saved));}
+  const colorFor=p=>p>=70?'#34D399':p>=45?'#FBBF24':'#F87171';
+  $('job-save').onclick=()=>{
+    if(!lastResult)return;
+    saved.unshift({id:Date.now(),name:lastResult.name,match:lastResult.base,date:new Date().toISOString().slice(0,10),remote:lastResult.remote,usd:lastResult.usd});
+    saveSaved();renderSaved();toast('Vacante guardada · '+lastResult.base+'% match','#2DD4BF');
+    $('job-name').value='';
+  };
+  function renderSaved(){
+    const avgEl=$('job-avg');
+    if(saved.length){
+      const avg=Math.round(saved.reduce((a,b)=>a+(b.match||0),0)/saved.length);
+      const c=colorFor(avg);
+      avgEl.innerHTML=`<div class="avgcard"><div class="avgnum" style="color:${c}">${avg}%</div><div class="avgmeta"><div class="al">Match promedio</div><div class="as">${saved.length} vacante${saved.length>1?'s':''} guardada${saved.length>1?'s':''}</div></div></div>`;
+    }else avgEl.innerHTML='';
+    $('job-savedTitle').style.display=saved.length?'block':'none';
+    const wrap=$('job-saved');wrap.innerHTML='';
+    saved.forEach(v=>{
+      const c=colorFor(v.match);
+      const el=document.createElement('div');el.className='saved-item';
+      el.innerHTML=`<div class="saved-pct" style="color:${c}">${v.match}%</div><div class="saved-info"><div class="sn">${esc(v.name)}</div><div class="sd">${v.date}${v.remote?' · remoto':''}${v.usd?' · USD':''}</div></div><button class="saved-del" title="Eliminar">✕</button>`;
+      el.querySelector('.saved-del').onclick=()=>{saved=saved.filter(x=>x.id!==v.id);saveSaved();renderSaved();};
+      wrap.appendChild(el);
+    });
+  }
+  renderSaved();
+})();
+/* ============================================================
+   FRASE MOTIVACIONAL DIARIA
+   ============================================================ */
+(function MOTTO(){
+  const PHRASES=[
+    "El progreso se construye un día a la vez. Hoy cuenta.",
+    "No tienes que hacerlo todo, solo lo siguiente.",
+    "La constancia le gana al talento cuando el talento no es constante.",
+    "Cada aplicación enviada es una puerta que tocaste. Sigue tocando.",
+    "Aprender incomoda. Esa incomodidad es la señal de que avanzas.",
+    "El inglés se gana en repeticiones pequeñas, no en saltos heroicos.",
+    "Un mal día no borra una buena racha.",
+    "Descansar también es parte del plan. Hazlo sin culpa.",
+    "Lo difícil de hoy será tu base de mañana.",
+    "Mejor terminar el mínimo que abandonar el máximo.",
+    "Tu próximo trabajo todavía no sabe que vas en camino.",
+    "Pequeños pasos, repetidos, mueven montañas.",
+    "El código que no entiendes hoy, lo dominarás esta semana.",
+    "Enfócate en el bloque que tienes enfrente, no en toda la montaña.",
+    "Compite contigo de ayer, no con nadie más.",
+    "La disciplina es elegir a largo plazo sobre lo que quieres ahora.",
+    "Cada repaso fija un poco más lo que ya sabes.",
+    "Hecho es mejor que perfecto.",
+    "Confía en el proceso que ya armaste. Solo ejecútalo.",
+    "Las entrevistas se ganan en la práctica, no en la suerte.",
+    "Hoy solo necesitas avanzar un casillero.",
+    "El miedo a empezar suele ser más grande que la tarea misma.",
+    "Tu portfolio habla por ti cuando no estás en la sala.",
+    "Sembrar hoy es cosechar en unos meses. Sigue sembrando.",
+    "La calma también se entrena. Respira y continúa.",
+    "Un problema a la vez. Así se desarma cualquier reto.",
+    "No subestimes lo que logras en sesiones cortas y consistentes.",
+    "Estás más cerca de lo que crees. Sigue.",
+    "El esfuerzo de hoy es invisible, pero no inútil.",
+    "Empieza por tu mínimo no negociable. El resto vendrá solo.",
+  ];
+  const d=new Date();
+  const dayNum=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+  $('motto').textContent=PHRASES[((dayNum%PHRASES.length)+PHRASES.length)%PHRASES.length];
+})();
+
+/* ============================================================
+   SINCRONIZACIÓN EN LA NUBE
+   - localStorage sigue siendo la fuente local/offline
+   - empuja y jala un blob con las 4 claves contra tu servidor
+   - last-write-wins por timestamp (uso personal, un equipo a la vez)
+   ============================================================ */
+(function SYNC(){
+  const CFG_KEY='cdm-sync-cfg';
+  const STAMP_KEY='cdm-last-applied';
+  const DATA_KEYS=['rpg-study-v4','roadmap-v4','repaso','contextos','portfolio-projects','saved-vacancies'];
+  let applying=false, pushT=null;
+
+  const getCfg=()=>{try{return JSON.parse(localStorage.getItem(CFG_KEY))||{};}catch(e){return {};}};
+  const setCfg=c=>localStorage.setItem(CFG_KEY,JSON.stringify(c));
+  const configured=()=>{const c=getCfg();return !!(c.url&&c.code);};
+
+  function collect(){const o={};DATA_KEYS.forEach(k=>{const v=localStorage.getItem(k);if(v!=null)o[k]=v;});return o;}
+  function apply(data){applying=true;DATA_KEYS.forEach(k=>{if(data&&data[k]!=null)localStorage.setItem(k,data[k]);});applying=false;}
+
+  function status(state,text){
+    const box=$('syncStatus');box.className='syncstatus'+(state?(' '+state):'');
+    $('syncStatusText').textContent=text;
+    $('syncDot').style.display=configured()?'block':'none';
+  }
+
+  // intercept writes to data keys → debounce a push
+  const _set=localStorage.setItem.bind(localStorage);
+  localStorage.setItem=function(k,v){
+    _set(k,v);
+    if(!applying && DATA_KEYS.includes(k) && configured()){
+      clearTimeout(pushT);pushT=setTimeout(push,1400);
+    }
+  };
+
+  async function push(){
+    const c=getCfg();if(!c.url||!c.code)return;
+    try{
+      status('syncing','Subiendo cambios…');
+      const updated_at=Date.now();
+      const res=await fetch(c.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:c.code,data:collect(),updated_at})});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      _set(STAMP_KEY,String(updated_at));
+      status('ok','Sincronizado · '+new Date().toLocaleTimeString());
+    }catch(e){status('err','Error al subir: '+e.message);}
+  }
+
+  async function pull(opts){
+    opts=opts||{};
+    const c=getCfg();if(!c.url||!c.code)return;
+    try{
+      if(opts.loud)status('syncing','Buscando cambios…');
+      const res=await fetch(c.url+'?code='+encodeURIComponent(c.code),{cache:'no-store'});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const remote=await res.json();
+      if(remote&&remote.data&&remote.updated_at){
+        const localApplied=+localStorage.getItem(STAMP_KEY)||0;
+        if(remote.updated_at>localApplied){
+          apply(remote.data);
+          _set(STAMP_KEY,String(remote.updated_at));
+          if(!sessionStorage.getItem('cdm-pulled')){
+            sessionStorage.setItem('cdm-pulled','1');
+            location.reload();return;
+          }
+        }
+      }
+      if(opts.loud)status('ok','Al día · '+new Date().toLocaleTimeString());
+    }catch(e){if(opts.loud)status('err','Error al bajar: '+e.message);}
+  }
+
+  // ---- modal wiring ----
+  function openModal(){
+    const c=getCfg();
+    $('syncUrl').value=c.url||'';
+    $('syncCode').value=c.code||'';
+    if(configured()){
+      const stamp=+localStorage.getItem(STAMP_KEY)||0;
+      status('ok', stamp?('Última sync: '+new Date(stamp).toLocaleString()):'Configurado · aún sin sincronizar');
+    }else status('','Sin configurar');
+    $('syncOverlay').classList.add('show');
+  }
+  $('openSync').onclick=openModal;
+  $('syncClose').onclick=()=>$('syncOverlay').classList.remove('show');
+  $('syncOverlay').onclick=e=>{if(e.target.id==='syncOverlay')$('syncOverlay').classList.remove('show');};
+  $('genCode').onclick=()=>{
+    const rnd=(crypto.getRandomValues(new Uint32Array(2))).reduce((a,b)=>a+b.toString(36),'');
+    $('syncCode').value='lalo-'+rnd;
+  };
+  $('syncNow').onclick=async()=>{
+    const url=$('syncUrl').value.trim(),code=$('syncCode').value.trim();
+    if(!url||!code){status('err','Falta URL o código.');return;}
+    setCfg({url,code});
+    await push();
+    await pull({loud:true});
+  };
+
+  // ---- on load: reflect status + auto pull once ----
+  status(configured()?'ok':'', configured()?'Sincronización activa':'Sin configurar');
+  if(configured())pull({loud:false});
+})();
+
+/* ============================================================
+   PORTAFOLIO DE PROYECTOS
+   ============================================================ */
+(function PORT(){
+  const KEY='portfolio-projects';
+  let S=load();
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||[];}catch(e){return [];}}
+  function save(){localStorage.setItem(KEY,JSON.stringify(S));}
+  const uid=()=>Date.now()+''+Math.floor(Math.random()*1000);
+
+  function progress(p){
+    let total=0,done=0;
+    (p.tasks||[]).forEach(t=>{
+      if(t.subtasks&&t.subtasks.length){t.subtasks.forEach(s=>{total++;if(s.done)done++;});}
+      else{total++;if(t.done)done++;}
+    });
+    return total?Math.round(100*done/total):0;
+  }
+
+  $('port-create').onclick=()=>{
+    const title=$('port-title').value.trim();if(!title){alert('Ponle un título al proyecto.');return;}
+    S.unshift({id:uid(),title,desc:$('port-desc').value.trim(),open:true,tasks:[]});
+    $('port-title').value='';$('port-desc').value='';save();render();
+  };
+
+  function render(){
+    const wrap=$('port-list');wrap.innerHTML='';
+    if(!S.length){wrap.innerHTML='<div class="empty">Aún no tienes proyectos. Crea el primero arriba.</div>';return;}
+    S.forEach(p=>{
+      const pct=progress(p);
+      const proj=document.createElement('div');proj.className='project'+(p.open?' open':'');
+      proj.innerHTML=`<div class="proj-head"><div class="proj-top"><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg><div class="proj-title">${esc(p.title)}</div><div class="proj-pct">${pct}%</div><button class="proj-del" title="Eliminar proyecto">✕</button></div><div class="proj-bar"><i style="width:${pct}%"></i></div>${p.desc?`<div class="proj-desc">${esc(p.desc)}</div>`:''}</div><div class="proj-body"></div>`;
+      proj.querySelector('.proj-head').onclick=e=>{if(e.target.closest('.proj-del'))return;p.open=!p.open;save();render();};
+      proj.querySelector('.proj-del').onclick=e=>{e.stopPropagation();if(confirm('¿Eliminar "'+p.title+'" y sus tareas?')){S=S.filter(x=>x.id!==p.id);save();render();}};
+      const body=proj.querySelector('.proj-body');
+      (p.tasks||[]).forEach(t=>{
+        const hasSubs=t.subtasks&&t.subtasks.length;
+        const doneState=hasSubs?t.subtasks.every(s=>s.done):t.done;
+        const tk=document.createElement('div');tk.className='tk';
+        tk.innerHTML=`<div class="tk-row ${doneState?'done':''}"><div class="ck ${doneState?'on':''}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2a0a23" stroke-width="3.5"><path d="M5 13l4 4L19 7"/></svg></div><div class="tk-text">${esc(t.text)}</div><button class="mini addsubbtn">+ subtarea</button><button class="mini delbtn">✕</button></div>`;
+        tk.querySelector('.ck').onclick=()=>{if(hasSubs){const all=t.subtasks.every(s=>s.done);t.subtasks.forEach(s=>s.done=!all);}else{t.done=!t.done;}save();render();};
+        tk.querySelector('.delbtn').onclick=()=>{p.tasks=p.tasks.filter(x=>x!==t);save();render();};
+        tk.querySelector('.addsubbtn').onclick=()=>{const txt=prompt('Nueva subtarea:');if(txt&&txt.trim()){t.subtasks=t.subtasks||[];t.subtasks.push({id:uid(),text:txt.trim(),done:false});save();render();}};
+        if(hasSubs){
+          const subs=document.createElement('div');subs.className='subs';
+          t.subtasks.forEach(s=>{
+            const sr=document.createElement('div');sr.className='tk';
+            sr.innerHTML=`<div class="tk-row ${s.done?'done':''}"><div class="ck sm ${s.done?'on':''}"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#2a0a23" stroke-width="3.5"><path d="M5 13l4 4L19 7"/></svg></div><div class="tk-text sub-text">${esc(s.text)}</div><button class="mini delbtn">✕</button></div>`;
+            sr.querySelector('.ck').onclick=()=>{s.done=!s.done;save();render();};
+            sr.querySelector('.delbtn').onclick=()=>{t.subtasks=t.subtasks.filter(x=>x!==s);save();render();};
+            subs.appendChild(sr);
+          });
+          tk.appendChild(subs);
+        }
+        body.appendChild(tk);
+      });
+      const add=document.createElement('div');add.className='addrow';
+      add.innerHTML=`<input placeholder="Nueva tarea…"><button>Añadir</button>`;
+      const inp=add.querySelector('input');
+      const doAdd=()=>{const v=inp.value.trim();if(!v)return;p.tasks=p.tasks||[];p.tasks.push({id:uid(),text:v,done:false,subtasks:[]});save();render();};
+      add.querySelector('button').onclick=doAdd;
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter')doAdd();});
+      body.appendChild(add);
+      wrap.appendChild(proj);
+    });
+  }
+  $('port-export').onclick=()=>downloadJSON(S,'portfolio-backup.json');
+  $('port-import').onclick=()=>$('port-file').click();
+  $('port-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);save();render();}catch(err){alert('Archivo inválido');}};r.readAsText(f);};
+  render();
 })();
 </script>
 </body>
